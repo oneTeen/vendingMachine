@@ -214,6 +214,7 @@ public class Dispenser implements DispenserService {
      */
     private void supplyThisCoinType(Coin coin, int difference, boolean changeLimits) {
         int cap = getCap(difference, coin, changeLimits);
+        
         for (int coinsAdded = 0; coinsAdded < cap; coinsAdded++) {
             changeInProgress.add(coin);
             if (changeLimits) {

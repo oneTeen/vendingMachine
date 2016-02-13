@@ -13,9 +13,9 @@ import javax.swing.JOptionPane;
 import services.Dispenser;
 
 /**
- * Entry application for testing purposes.
- * I did this super quick to provide a way to test. No real effort into
- * this form.
+ * Entry application for testing purposes. I did this super quick to provide a
+ * way to test. No real effort into this form.
+ *
  * @author Kenneth
  */
 public class ApplicationUI extends javax.swing.JFrame {
@@ -28,7 +28,7 @@ public class ApplicationUI extends javax.swing.JFrame {
         super("Vending machine");
         initComponents();
         loadSettings();
-        
+
     }
 
     /**
@@ -57,6 +57,7 @@ public class ApplicationUI extends javax.swing.JFrame {
         lblLimitedChange = new javax.swing.JLabel();
         lblNotice03 = new javax.swing.JLabel();
         lblNotice04 = new javax.swing.JLabel();
+        lblChangeOverview = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -135,8 +136,8 @@ public class ApplicationUI extends javax.swing.JFrame {
                     .addComponent(txtPence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmdPurchase))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scpreturnChangeList, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scpreturnChangeList, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblRetunedChange)
                 .addContainerGap())
         );
@@ -194,7 +195,7 @@ public class ApplicationUI extends javax.swing.JFrame {
         pnlSettingsLayout.setVerticalGroup(
             pnlSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSettingsLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tglLimitedchange)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblLimitedChange)
@@ -203,11 +204,11 @@ public class ApplicationUI extends javax.swing.JFrame {
                     .addComponent(lblNotice03)
                     .addComponent(lblNotice04))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scpConfigList, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                .addComponent(scpConfigList, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        lblNotice03.getAccessibleContext().setAccessibleName("Config file view");
+        lblChangeOverview.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -217,7 +218,9 @@ public class ApplicationUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(pnlApplication, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnlSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblChangeOverview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -225,12 +228,17 @@ public class ApplicationUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlApplication, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblChangeOverview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(557, 471));
+        setSize(new java.awt.Dimension(557, 469));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -315,6 +323,7 @@ public class ApplicationUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdPurchase;
     private javax.swing.JList<String> configList;
+    private javax.swing.JLabel lblChangeOverview;
     private javax.swing.JLabel lblLimitedChange;
     private javax.swing.JLabel lblNotice01;
     private javax.swing.JLabel lblNotice02;
@@ -351,9 +360,23 @@ public class ApplicationUI extends javax.swing.JFrame {
     private void updateChangeUI(Collection<Coin> change) {
         DefaultListModel listModel = new DefaultListModel();
         returnChangeList.setModel(listModel);
+
+        lblChangeOverview.setText("<html>");
+        int counter = 0;
+        Coin temp = change.iterator().next();
         for (Coin coin : change) {
+
             listModel.addElement(coin);
+
+            if (coin != temp || !change.iterator().hasNext()) {
+                lblChangeOverview.setText(lblChangeOverview.getText() + temp.getNameAsString() + " * " + counter + "<br>");
+                counter = 0;
+            }
+            counter++;
+            temp = coin;
         }
+        lblChangeOverview.setText(lblChangeOverview.getText() + temp.getNameAsString() + " * " + counter + "<br>");
+        lblChangeOverview.setText(lblChangeOverview.getText() + "</html>");
     }
 
     private void loadConfigUI() {
