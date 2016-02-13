@@ -43,7 +43,6 @@ public class Dispenser implements DispenserService {
         int difference = pence - p.getProductPrice();
 
         if (enoughMoneyProvided(pence, p)) {
-
             for (Coin coin : Coin.values()) {
                 if (isCoinTypeNeeded(coin, difference - getCurrentChange())) {
                     supplyThisCoinType(coin, difference - getCurrentChange(), false);
@@ -52,8 +51,8 @@ public class Dispenser implements DispenserService {
         } else {
             throw new NotEnoughMoneyException("You have not provided enough money.\n"
                     + "Remeber that 10 pounds need to be entered as 1000 (one thousand pennies), for example.");
-
         }
+        
         return changeInProgress;
     }
 
@@ -73,6 +72,8 @@ public class Dispenser implements DispenserService {
                         supplyThisCoinType(coin, difference - getCurrentChange(), true);
                     }
                 }
+                if(getCurrentChange()!=difference)
+                    throw new NotEnoughChangeException("The machine has run out of change.");
                 updateConfig();
             } else {
                 throw new NotEnoughChangeException("The machine has run out of change.");
